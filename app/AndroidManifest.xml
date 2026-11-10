@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- targetSdk 26: the lowest Android 15 accepts well, and it skips newer foreground-service and capture rules. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.phonelink.phonelinkserver"
+    android:versionCode="30"
+    android:versionName="4.0">
+
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="26" />
+    <uses-feature android:name="android.hardware.usb.accessory" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Only works after a one-time adb grant. Used to switch TouchService on and off with USB. -->
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <application android:label="PhoneLink" android:icon="@mipmap/ic_launcher" android:allowBackup="false">
+        <activity
+            android:name="com.phonelink.phonelinkserver.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+                android:resource="@xml/accessory_filter" />
+        </activity>
+        <service
+            android:name="com.phonelink.phonelinkserver.MirrorService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+        <service
+            android:name="com.phonelink.phonelinkserver.TouchService"
+            android:exported="false"
+            android:label="PhoneLink touch"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/touch_service" />
+        </service>
+    </application>
+</manifest>

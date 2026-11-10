@@ -1,0 +1,12 @@
+# Build output
+app/build/
+
+# Signing keys: private, keep a backup outside the repo
+*.keystore
+*.jks
+
+# Original vendor app, not ours to redistribute
+PhonelinkApk.apk
+
+# Local tool settings
+.claude/

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="touch_description">Lets taps on the car headunit control this phone while mirroring. It performs touches and Home/Back only, and does not read your screen content or messages.</string>
+</resources>
